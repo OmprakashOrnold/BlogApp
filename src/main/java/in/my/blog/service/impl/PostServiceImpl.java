@@ -17,9 +17,16 @@ public class PostServiceImpl implements PostService {
     private final MapperUtils mapperUtils;
 
     private final PostRepository postRepository;
+
     @Override
     public List<PostDto> findAllPosts() {
         List<Post> posts = postRepository.findAll();
-        return mapperUtils.map( posts,PostDto.class );
+        return mapperUtils.map( posts, PostDto.class );
+    }
+
+    @Override
+    public void createPost(PostDto postDto) {
+        Post post = mapperUtils.map( postDto, Post.class );
+        postRepository.save( post );
     }
 }
