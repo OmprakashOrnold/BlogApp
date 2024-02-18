@@ -36,4 +36,10 @@ public class PostServiceImpl implements PostService {
         Optional<Post> post = postRepository.findById( id );
         return post.map( value -> mapperUtils.map( value, PostDto.class ) ).orElse( null );
     }
+
+    @Override
+    public void updatePost(PostDto postDto) {
+        Post post = mapperUtils.map( postDto, Post.class );
+        postRepository.save( post );
+    }
 }
