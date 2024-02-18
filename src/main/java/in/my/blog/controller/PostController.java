@@ -53,6 +53,17 @@ public class PostController {
     }
 
 
+    @PostMapping("/admin/posts/{postId}/edit")
+    public String updatePost(@PathVariable("postId") Long postId ,@Valid  @ModelAttribute("post")  PostDto postDto ,BindingResult result, Model model) {
+        if(result.hasErrors()) {
+            model.addAttribute( "post", postDto );
+            return "/admin/edit_post";
+        }
+        postDto.setId( postId );
+        postService.updatePost( postDto );
+        return "redirect:/admin/posts";
+    }
+
     private static String getUrl(String postTitle) {
         String title = postTitle.trim().toLowerCase();
         String url = title.replaceAll( "\\s+", "-" );
