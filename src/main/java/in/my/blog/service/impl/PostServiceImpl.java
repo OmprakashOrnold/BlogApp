@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +29,11 @@ public class PostServiceImpl implements PostService {
     public void createPost(PostDto postDto) {
         Post post = mapperUtils.map( postDto, Post.class );
         postRepository.save( post );
+    }
+
+    @Override
+    public PostDto findPostById(Long id) {
+        Optional<Post> post = postRepository.findById( id );
+        return post.map( value -> mapperUtils.map( value, PostDto.class ) ).orElse( null );
     }
 }
