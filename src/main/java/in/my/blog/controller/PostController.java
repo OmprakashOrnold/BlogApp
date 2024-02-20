@@ -35,8 +35,8 @@ public class PostController {
     }
 
     @PostMapping("/admin/posts")
-    public String createPost(@Valid  @ModelAttribute("post") PostDto postDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
+    public String createPost(@Valid @ModelAttribute("post") PostDto postDto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             model.addAttribute( "post", postDto );
             return "/admin/newpost";
         }
@@ -54,8 +54,8 @@ public class PostController {
 
 
     @PostMapping("/admin/posts/{postId}/edit")
-    public String updatePost(@PathVariable("postId") Long postId ,@Valid  @ModelAttribute("post")  PostDto postDto ,BindingResult result, Model model) {
-        if(result.hasErrors()) {
+    public String updatePost(@PathVariable("postId") Long postId, @Valid @ModelAttribute("post") PostDto postDto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             model.addAttribute( "post", postDto );
             return "/admin/edit_post";
         }
@@ -70,6 +70,12 @@ public class PostController {
         return "redirect:/admin/posts";
     }
 
+    @GetMapping("/admin/posts/{postUrl}/view")
+    public String viewPost(@PathVariable("postUrl") String postUrl, Model model) {
+        PostDto postDto = postService.findByPostUrl( postUrl );
+        model.addAttribute( "post", postDto );
+        return "/admin/view_post";
+    }
 
     private static String getUrl(String postTitle) {
         String title = postTitle.trim().toLowerCase();
