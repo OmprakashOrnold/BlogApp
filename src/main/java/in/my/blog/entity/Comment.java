@@ -9,31 +9,31 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "posts")
 @Entity
-public class Post {
-
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String title;
-    private String url;
+    private String name;
+    @Column(nullable = false)
+    private String email;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
-    private String shortDescription;
     @CreationTimestamp
     private LocalDateTime createdOn;
     @UpdateTimestamp
     private LocalDateTime updatedOn;
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    private Set<Comment> comments = new HashSet<>();
+
+    @ManyToOne()
+    @JoinColumn(name="post_id")
+    private Post post;
+
+
+
 }
