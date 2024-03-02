@@ -1,6 +1,8 @@
 package in.my.blog.controller;
 
+import in.my.blog.dto.CommentDto;
 import in.my.blog.dto.PostDto;
+import in.my.blog.service.CommentService;
 import in.my.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,8 @@ public class BlogController {
 
     private final PostService postService;
 
+    private final CommentService commentService;
+
     @GetMapping("/")
     public String viewBlogPosts(Model model) {
         List<PostDto> postResponse = postService.findAllPosts();
@@ -27,8 +31,12 @@ public class BlogController {
 
     @GetMapping("/post/{postUrl}")
     public String showBlogPosts(@RequestParam("postUrl") String postUrl, Model model) {
-        PostDto byPostUrl = postService.findByPostUrl( postUrl );
-        model.addAttribute( "post", byPostUrl );
+        PostDto postDto = postService.findByPostUrl( postUrl );
+
+        postDto.setComments(commentService.findAllComments()  );
+        CommentDto commentDto=new CommentDto();
+        model.addAttribute( "post", postDto );
+        model.addAttribute( "comment", commentDto );
         return "/blog/blog_post";
     }
 
