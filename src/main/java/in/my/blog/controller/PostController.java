@@ -1,8 +1,10 @@
 package in.my.blog.controller;
 
 
+import in.my.blog.dto.CommentDto;
 import in.my.blog.dto.PostDto;
 import in.my.blog.entity.Post;
+import in.my.blog.service.CommentService;
 import in.my.blog.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +15,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
+
+    private final CommentService commentService;
 
     @GetMapping("/admin/posts")
     public String posts(Model model) {
@@ -85,6 +90,14 @@ public class PostController {
         return "/admin/posts";
     }
 
+
+    @GetMapping("/admin/comments")
+    public String postComments(Model model) {
+        Set<CommentDto> commentDto = commentService.findAllComments();
+        model.addAttribute( "comments", commentDto );
+        return "/admin/comments";
+
+    }
 
     private static String getUrl(String postTitle) {
         String title = postTitle.trim().toLowerCase();

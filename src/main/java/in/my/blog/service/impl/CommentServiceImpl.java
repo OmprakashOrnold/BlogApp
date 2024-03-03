@@ -36,4 +36,9 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> comments = commentRepository.findAll();
         return mapperUtils.mapToSet(comments, CommentDto.class );
     }
+
+    @Override
+    public void deleteCommentById(Long commentId) {
+        commentRepository.deleteById( commentId );
+    }
 }
