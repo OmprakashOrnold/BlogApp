@@ -10,4 +10,6 @@ public interface CommentService {
     CommentDto createComment(String postUrl,CommentDto commentDto);
 
     Set<CommentDto> findAllComments();
+
+    void deleteCommentById(Long commentId);
 }
